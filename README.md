@@ -2,7 +2,7 @@
 
 **WARNING! Do not use yet! This cartridge is still WIP!!!**
 
-This is a custom MySQL cartridge.
+This is a custom OpenShift cartridge able to provide the latest MySQL version (starting with 5.7.7-rc as of 10th of June 2015).
 
 ## Why
 
