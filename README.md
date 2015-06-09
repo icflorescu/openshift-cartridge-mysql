@@ -1,7 +1,5 @@
 # Custom MySQL cartridge for OpenShift
 
-**WARNING! Do not use yet! This cartridge is still WIP!!!**
-
 This is a custom OpenShift cartridge able to provide the latest MySQL version (starting with 5.7.7-rc as of 10th of June 2015).
 
 ## Why
@@ -43,6 +41,7 @@ You can also use `rhc port-forward` to connect from a client / tool such as MySQ
 
 - Can't guarantee this cartridge is production-ready. Some people use it though (on **their own responsibility**).
 - This is a **lean cartridge**. A standard MySQL installation takes a huge amount of space (over 1.5GB for MySQL 5.7.5). To save space, just the necessary MySQL binaries are installed.
+- In order to avoid an OpenShift configuration conflict, **the server instance is listening on 13306 instead of the standard MySQL port 3306**.
 - Don't hesitate to make a pull-request with an updated version in [this file](https://github.com/icflorescu/openshift-cartridge-mysql/blob/master/metadata/manifest.yml#L4) if you notice this cartridge version is behind the latest [MySQL release](http://dev.mysql.com/downloads/mysql).
 - Please refer to the [OpenShift documentation](https://developers.openshift.com/en/managing-port-forwarding.html) to learn about `rhc port-forward` instead of opening issues in this GitHub repository. I am not an employee of RedHat / OpenShift, nor do I have any form of consultancy agreement with them. The fact that I open-sourced this cartridge doesn't mean I'm willing to offer free advice on the subject. Pull-requests and suggestions are always welcome, though.
 
