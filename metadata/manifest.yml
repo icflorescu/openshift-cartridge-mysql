@@ -23,7 +23,7 @@ Scaling:
   Max: 1
 
 Publishes:
-  publish-nosql-db-connection-info:
+  publish-db-connection-info:
     Type: ENV:NET_TCP:db:connection-info
 
 Endpoints:
