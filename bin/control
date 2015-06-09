@@ -1,0 +1,82 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+function is_running() {
+  if [ ! -z "$(ps -ef | grep 'mysqld_safe' | grep -v grep)" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+function start() {
+  if is_running; then
+    client_result 'MySQL is already running.'
+  else
+    client_message 'Starting MySQL...'
+    nohup ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld_safe \
+      --defaults-file=./my.cnf                        \
+      |& /usr/bin/logshifter -tag mysql &
+    i=0
+    while ! is_running && [ $i -lt 60 ]; do
+      sleep 1
+      i=$(($i + 1))
+    done
+    if is_running; then
+      client_result 'MySQL started.'
+    else
+      client_result 'Warning! Could not start MySQL!'
+      exit 1
+    fi
+  fi
+}
+
+function stop() {
+  if ! is_running; then
+      client_result 'MySQL is already stopped.'
+  else
+    client_message 'Stopping MySQL...'
+    kill "$(ps -ef | grep 'mysqld_safe' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
+    i=0
+    while is_running && [ $i -lt 60 ]; do
+      sleep 1
+      i=$(($i + 1))
+    done
+    if is_running; then
+      client_result 'Warning! Could not stop MySQL!'
+      exit 1
+    else
+      client_result 'MySQL stopped.'
+    fi
+  fi
+}
+
+function restart() {
+  stop
+  start
+}
+
+function status() {
+  if is_running; then
+    client_result 'MySQL appears to be running.'
+  else
+    client_result 'MySQL appears to be stopped.'
+  fi
+}
+
+function tidy() {
+  shopt -s dotglob
+  client_message "Emptying logs in ${OPENSHIFT_LOG_DIR}..."
+  rm -rf ${OPENSHIFT_LOG_DIR}/*.log*
+  client_message 'Done.'
+}
+
+case ${1} in
+  start)   start   ;;
+  stop)    stop    ;;
+  restart) restart ;;
+  status)  status  ;;
+  tidy)    tidy    ;;
+  *)       exit 0
+esac
