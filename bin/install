@@ -3,14 +3,14 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 # Download
-curl -L -o ${OPENSHIFT_DATA_DIR}tmp.tgz http://dev.mysql.com/get/Downloads/mysql-${2}-linux-glibc2.5-x86_64.tar.gz
+curl -L -o ${OPENSHIFT_DATA_DIR}tmp.tgz http://dev.mysql.com/get/Downloads/mysql-${2}-rc-linux-glibc2.5-x86_64.tar.gz
 
 # Create bin directory if necessary
 mkdir -p ${OPENSHIFT_DATA_DIR}.mysql
 
 # Copy just the mecessary files
-tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysql_install_db,mysql_ssl_rsa_setup}
-tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-linux-glibc2.5-x86_64/share
+tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysql_install_db,mysql_ssl_rsa_setup}
+tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/share
 
 # Remove downloaded archive
 rm ${OPENSHIFT_DATA_DIR}tmp.tgz
