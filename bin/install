@@ -42,7 +42,7 @@ ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
   --skip-grant-tables --skip-networking &
 
 # Change root password
-echo "FLUSH PRIVILEGES; ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=socket = ${TMP}/mysql.sock
+echo "FLUSH PRIVILEGES; ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
