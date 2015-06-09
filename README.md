@@ -44,7 +44,7 @@ You can also use `rhc port-forward` to connect from a client / tool such as MySQ
 
 ## Related
 
-Since you're here, chances are you might also be interested in this [custom Node.js cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs) or this [custom MongoDB cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs).
+Since you're here, chances are you might also be interested in this [custom Node.js cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs) or this [custom MongoDB cartridge](https://github.com/icflorescu/openshift-cartridge-mongodb).
 
 ## Credits and attributions
 
