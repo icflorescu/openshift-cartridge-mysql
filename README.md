@@ -1,4 +1,4 @@
-# Custom MySQL application cartridge for OpenShift
+# Custom MySQL cartridge for OpenShift
 
 **WARNING! Do not use yet! This cartridge is still WIP!!!**
 
