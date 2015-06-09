@@ -6,25 +6,45 @@ source $OPENSHIFT_CARTRIDGE_SDK_BASH
 curl -L -o ${OPENSHIFT_DATA_DIR}tmp.tgz http://dev.mysql.com/get/Downloads/mysql-${2}-linux-glibc2.5-x86_64.tar.gz
 
 # Create bin directory if necessary
-mkdir -p ${OPENSHIFT_DATA_DIR}.mysql/{bin,data}
+mkdir -p ${OPENSHIFT_DATA_DIR}.mysql
 
 # Copy just the mecessary files
-tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysqld_safe,mysql_install_db,resolveip}
+tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysql_install_db,mysql_ssl_rsa_setup}
 tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-linux-glibc2.5-x86_64/share
-tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=2 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-linux-glibc2.5-x86_64/support-files/my-default.cnf
 
 # Remove downloaded archive
 rm ${OPENSHIFT_DATA_DIR}tmp.tgz
 
+echo "
+[mysqld_safe]
+ledir = ${OPENSHIFT_DATA_DIR}.mysql/bin
+
+[mysqld]
+socket = ${TMP}/mysql.sock
+basedir = ${OPENSHIFT_DATA_DIR}.mysql
+datadir = ${OPENSHIFT_DATA_DIR}.mysql/data
+tmpdir = ${TMP}
+pid-file = ${TMP}/mysql.pid
+log-error = ${OPENSHIFT_LOG_DIR}/mysql.err
+" > ${OPENSHIFT_DATA_DIR}.mysql/my.cnf
+
 # Create internal database
 cd ${OPENSHIFT_DATA_DIR}.mysql
-./bin/mysql_install_db --datadir=./data/
+./bin/mysql_install_db --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf --datadir=${OPENSHIFT_DATA_DIR}.mysql/data
 
 # Remove temporary tools
-rm bin/mysql_install_db
-rm bin/resolveip
-rm my-default.cnf
-rm rm my-new.cnf
+rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
+
+# Start server in "admin mode"
+${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld               \
+  --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
+  --skip-grant-tables --skip-networking &
+
+# Change root password
+echo "FLUSH PRIVILEGES; ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=socket = ${TMP}/mysql.sock
+
+# Stop server
+kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
 
 # Add DB_HOST and DB_PORT environment variables
 if [ -z "$OPENSHIFT_MYSQL_PROXY_PORT" ]; then
@@ -38,4 +58,4 @@ else
 fi
 
 # Output result
-client_result "MySQL ${2} installed - use \$DB_HOST and \$DB_PORT environment variables to connect your application."
+client_result "MySQL ${2} installed. Initial root password is 'root', make sure to change it. Use \$DB_HOST and \$DB_PORT environment variables to connect your application."
