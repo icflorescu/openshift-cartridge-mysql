@@ -46,6 +46,10 @@ You can also use `rhc port-forward` to connect from a client / tool such as MySQ
 - Don't hesitate to make a pull-request with an updated version in [this file](https://github.com/icflorescu/openshift-cartridge-mysql/blob/master/metadata/manifest.yml#L4) if you notice this cartridge version is behind the latest [MySQL release](http://dev.mysql.com/downloads/mysql).
 - Please refer to the [OpenShift documentation](https://developers.openshift.com/en/managing-port-forwarding.html) to learn about `rhc port-forward` instead of opening issues in this GitHub repository. I am not an employee of RedHat / OpenShift, nor do I have any form of consultancy agreement with them. The fact that I open-sourced this cartridge doesn't mean I'm willing to offer free advice on the subject. Pull-requests and suggestions are always welcome, though.
 
+## TODO
+
+Update the install script when MySQL 5.7 final is released. OpenShift doesn't allow "5.7.7-rc" as version number in the cartridge manifest file, so right now I'm "manually" adding the "-rc" suffix in the install script.
+
 ## Related
 
 Since you're here, chances are you might also be interested in this [custom Node.js cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs) or this [custom MongoDB cartridge](https://github.com/icflorescu/openshift-cartridge-mongodb).
