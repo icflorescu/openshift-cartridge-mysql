@@ -36,7 +36,7 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
 rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
 
 # Start server in "admin mode"
-${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld               \
+${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
   --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
   --skip-grant-tables --skip-networking &
 
@@ -45,6 +45,7 @@ echo "FLUSH PRIVILEGES; ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';" | $
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
+i=0
 while [ ! -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
   sleep 1
   i=$(($i + 1))

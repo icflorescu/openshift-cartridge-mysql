@@ -15,8 +15,7 @@ function start() {
     client_result 'MySQL is already running.'
   else
     client_message 'Starting MySQL...'
-    nohup ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld         \
-      --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf &
+    nohup ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf &
     i=0
     while ! is_running && [ $i -lt 60 ]; do
       sleep 1
