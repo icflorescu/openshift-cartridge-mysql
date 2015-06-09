@@ -20,6 +20,7 @@ echo "
 ledir = ${OPENSHIFT_DATA_DIR}.mysql/bin
 
 [mysqld]
+port = 13306
 socket = ${TMP}/mysql.sock
 basedir = ${OPENSHIFT_DATA_DIR}.mysql
 datadir = ${OPENSHIFT_DATA_DIR}.mysql/data
