@@ -18,7 +18,9 @@ To install this cartridge in your existing OpenShift application, go to **"See t
 
     http://cartreflect-claytondev.rhcloud.com/github/icflorescu/openshift-cartridge-mysql
 
-**The initial root password for the server instance is "root"**. Use `rhc port-forward` and connect with MySQL Workbench (or your client of choice) to change it and create databases and additional users as needed. If `rhc port-forward` sounds new to you, please refer to the last note in the **Notes** section below.
+**The initial root password for the server instance is `root`.**
+
+Use `rhc port-forward` and connect with MySQL Workbench (or your client of choice) to change the root password, create databases and additional users as needed. If `rhc port-forward` sounds new to you, please refer to the last note in the **Notes** section below.
 
 You can use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge.
 
