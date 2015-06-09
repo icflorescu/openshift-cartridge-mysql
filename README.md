@@ -33,11 +33,14 @@ For instance, here's how you'd do it in a Node.js application using [Knex.js](ht
       }
     });
 
+You can also use `rhc port-forward` to connect from a client / tool such as MySQL Workbench running on your development machine. See the note below if `rhc port-forward` sounds new to you.
+
 ## Notes
 
 - Can't guarantee this cartridge is production-ready. Some people use it though (on **their own responsibility**).
 - This is a **lean cartridge**. A standard MySQL installation takes a huge amount of space (over 1.5GB for MySQL 5.7.5). To save space, just the necessary MySQL binaries are installed.
 - Don't hesitate to make a pull-request with an updated version in [this file](https://github.com/icflorescu/openshift-cartridge-mysql/blob/master/metadata/manifest.yml#L4) if you notice this cartridge version is behind the latest [MySQL release](http://dev.mysql.com/downloads/mysql).
+- Please refer to the [OpenShift documentation](https://developers.openshift.com/en/managing-port-forwarding.html) to learn about `rhc port-forward` instead of opening issues in this GitHub repository. I am not an employee of RedHat / OpenShift, nor do I have any form of consultancy agreement with them. The fact that I open-sourced this cartridge doesn't mean I'm willing to offer free advice on the subject. Pull-requests and suggestions are always welcome, though.
 
 ## Related
 
