@@ -29,7 +29,7 @@ Publishes:
 Endpoints:
 - Private-IP-Name: DB_HOST
   Private-Port-Name: DB_PORT
-  Private-Port: 3306
+  Private-Port: 13306
   Public-Port-Name: DB_PROXY_PORT
   Protocols:
   - mysql
