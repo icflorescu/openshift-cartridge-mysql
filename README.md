@@ -1,6 +1,6 @@
 # Custom MySQL application cartridge for OpenShift
 
-**WARNING! Do not use yet! WIP!!!**
+**WARNING! Do not use yet! This cartridge is still WIP!!!**
 
 This is a custom MySQL cartridge.
 
@@ -20,15 +20,32 @@ To install this cartridge in your existing OpenShift application, go to **"See t
 
 Then you can use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge.
 
+For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
+
+    var knex = require('knex')({
+      client: 'mysql',
+      connection: {
+        host     : process.env.DB_HOST,
+        port:    : process.env.DB_PORT,
+        user     : 'your_database_user',
+        password : 'your_database_password',
+        database : 'myapp_test'
+      }
+    });
+
 ## Notes
 
 - Can't guarantee this cartridge is production-ready. Some people use it though (on **their own responsibility**).
-- This is a lean cartridge. To save space, just the necessary MySQL binaries are installed.
+- This is a **lean cartridge**. A standard MySQL installation takes a huge amount of space (over 1.5GB for MySQL 5.7.5). To save space, just the necessary MySQL binaries are installed.
 - Don't hesitate to make a pull-request with an updated version in [this file](https://github.com/icflorescu/openshift-cartridge-mysql/blob/master/metadata/manifest.yml#L4) if you notice this cartridge version is behind the latest [MySQL release](http://dev.mysql.com/downloads/mysql).
 
 ## Related
 
 Since you're here, chances are you might also be interested in this [custom Node.js cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs) or this [custom MongoDB cartridge](https://github.com/icflorescu/openshift-cartridge-nodejs).
+
+## Credits and attributions
+
+This cartridge was inspired by [Ted Wennmark](https://se.linkedin.com/in/tedwennmark)'s [blog post](http://mysql-nordic.blogspot.ro/2015/02/creating-minimal-mysql-installation-for.html) on how to create a minimal MySQL installation for an embedded system.
 
 ## License
 
