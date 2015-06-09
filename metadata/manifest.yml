@@ -1,7 +1,7 @@
 ---
 Name: mysql
 Description: MySQL is a multi-user, multi-threaded SQL database server.
-Version: '5.7.7'
+Version: '5.7.7-rc'
 License: GPL
 Vendor: Oracle
 Website: http://www.mysql.com
