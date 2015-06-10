@@ -9,7 +9,7 @@ curl -L -o ${OPENSHIFT_DATA_DIR}tmp.tgz http://dev.mysql.com/get/Downloads/mysql
 mkdir -p ${OPENSHIFT_DATA_DIR}.mysql
 
 # Copy just the mecessary files
-tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysql_install_db,mysql_ssl_rsa_setup,mysqladmin}
+tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysql_install_db,mysql_ssl_rsa_setup}
 tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/share
 
 # Remove downloaded archive
@@ -30,7 +30,10 @@ log-error=${OPENSHIFT_LOG_DIR}/mysql.err
 
 # Create internal database
 cd ${OPENSHIFT_DATA_DIR}.mysql
-./bin/mysql_install_db --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf --datadir=${OPENSHIFT_DATA_DIR}.mysql/data
+./bin/mysql_install_db \
+  --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
+  --skip-name-resolve \
+  --datadir=${OPENSHIFT_DATA_DIR}.mysql/data
 
 # Remove temporary tools
 rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
