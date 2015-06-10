@@ -35,6 +35,7 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
 # Remove temporary tools
 rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
 
+# Put initial root password in a temporary file
 echo "ALTER USER 'root'@'%' IDENTIFIED BY 'root';" > ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
 
 # Start server with init-file
@@ -55,6 +56,7 @@ while [ ! -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
   i=$(($i + 1))
 done
 
+# Remove temporary file containing the initial root password
 rm ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
 
 # Add DB_HOST and DB_PORT environment variables
