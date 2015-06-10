@@ -16,17 +16,16 @@ tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_
 rm ${OPENSHIFT_DATA_DIR}tmp.tgz
 
 echo "
-[mysqld_safe]
-ledir = ${OPENSHIFT_DATA_DIR}.mysql/bin
-
 [mysqld]
-port = ${OPENSHIFT_MYSQL_DB_PORT}
-socket = ${TMP}/mysql.sock
-basedir = ${OPENSHIFT_DATA_DIR}.mysql
-datadir = ${OPENSHIFT_DATA_DIR}.mysql/data
-tmpdir = ${TMP}
-pid-file = ${TMP}/mysql.pid
-log-error = ${OPENSHIFT_LOG_DIR}/mysql.err
+skip-name-resolve
+bind-address=${OPENSHIFT_MYSQL_DB_HOST}
+port=${OPENSHIFT_MYSQL_DB_PORT}
+socket=${TMP}/mysql.sock
+basedir=${OPENSHIFT_DATA_DIR}.mysql
+datadir=${OPENSHIFT_DATA_DIR}.mysql/data
+tmpdir=${TMP}
+pid-file=${TMP}/mysql.pid
+log-error=${OPENSHIFT_LOG_DIR}/mysql.err
 " > ${OPENSHIFT_DATA_DIR}.mysql/my.cnf
 
 # Create internal database
@@ -42,7 +41,7 @@ ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
   --skip-grant-tables --skip-networking &
 
 # Change root password
-echo "FLUSH PRIVILEGES; ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
+echo "FLUSH PRIVILEGES; ALTER USER 'root'@'%' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
