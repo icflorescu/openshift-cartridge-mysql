@@ -1,13 +1,14 @@
 #!/bin/bash
 
 # Wait for start
--while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 120 ]; do
--  sleep 1
--  i=$(($i + 1))
--done
+while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 120 ]; do
+  sleep 1
+  i=$(($i + 1))
+done
 
 # Setup remote connections and password for root
-echo "
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}mysql.sock -u root
+
+${OPENSHIFT_DATA_DIR}.mysql/bin/mysql \
+  --socket=${TMP}mysql.sock \
+  -u root \
+  -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
