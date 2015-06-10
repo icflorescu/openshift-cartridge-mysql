@@ -35,22 +35,17 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
 # Remove temporary tools
 rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
 
-# Start server in "admin mode"
+echo "ALTER USER 'root'@'%' IDENTIFIED BY 'root';" > ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
+
+# Start server with init-file
 ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
   --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
-  --skip-grant-tables --skip-networking &
+  --init-file=${OPENSHIFT_DATA_DIR}.mysql/set-password.sql &
 i=0
 while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
   sleep 1
   i=$(($i + 1))
 done
-
-# Setup remote connections and password for root
-echo "
-FLUSH PRIVILEGES;
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
@@ -59,6 +54,8 @@ while [ ! -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
   sleep 1
   i=$(($i + 1))
 done
+
+rm ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
 
 # Add DB_HOST and DB_PORT environment variables
 if [ -z "$OPENSHIFT_MYSQL_PROXY_PORT" ]; then
