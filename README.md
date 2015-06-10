@@ -34,7 +34,7 @@ If you're using multiple gears, here's how you can find the MySQL gear SSH url:
 
     rhc app show application-name --gears
 
-Once you've enabled remote access, you can use MySQL Workbench or your favorite client to connect from your development machine.
+Once you've enabled remote access, you can use `rhc port-forward` and MySQL Workbench or your favorite client to connect from your development machine.
 
 Use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge. For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
 
