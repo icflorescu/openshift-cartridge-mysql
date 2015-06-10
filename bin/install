@@ -46,7 +46,10 @@ while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
 done
 
 # Allow remote connections for root
-echo "UPDATE mysql.user SET host = '%' WHERE user = 'root'; FLUSH PRIVILEGES; ALTER USER 'root'@'%' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; exit;" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
+echo "
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
