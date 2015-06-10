@@ -36,7 +36,7 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
   --datadir=${OPENSHIFT_DATA_DIR}.mysql/data
 
 # Remove temporary tools
-# rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
+rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
 
 # Add DB_HOST and DB_PORT environment variables
 if [ -z "$OPENSHIFT_MYSQL_PROXY_PORT" ]; then

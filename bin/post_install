@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Wait for start
+-while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 120 ]; do
+-  sleep 1
+-  i=$(($i + 1))
+-done
+
 # Setup remote connections and password for root
 echo "
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
