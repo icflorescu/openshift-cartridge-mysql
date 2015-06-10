@@ -9,7 +9,7 @@ curl -L -o ${OPENSHIFT_DATA_DIR}tmp.tgz http://dev.mysql.com/get/Downloads/mysql
 mkdir -p ${OPENSHIFT_DATA_DIR}.mysql
 
 # Copy just the mecessary files
-tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysql_install_db,mysql_ssl_rsa_setup}
+tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/bin/{mysql,mysqld,mysql_install_db,mysql_ssl_rsa_setup,mysqladmin}
 tar -xvzf ${OPENSHIFT_DATA_DIR}tmp.tgz --strip-components=1 -C ${OPENSHIFT_DATA_DIR}.mysql mysql-${2}-rc-linux-glibc2.5-x86_64/share
 
 # Remove downloaded archive
@@ -34,30 +34,6 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
 
 # Remove temporary tools
 rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
-
-# Put initial root password in a temporary file
-echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;" > ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
-
-# Start server with init-file
-${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
-  --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
-  --init-file=${OPENSHIFT_DATA_DIR}.mysql/set-password.sql &
-i=0
-while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
-  sleep 1
-  i=$(($i + 1))
-done
-
-# Stop server
-kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
-i=0
-while [ ! -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
-  sleep 1
-  i=$(($i + 1))
-done
-
-# Remove temporary file containing the initial root password
-rm ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
 
 # Add DB_HOST and DB_PORT environment variables
 if [ -z "$OPENSHIFT_MYSQL_PROXY_PORT" ]; then
