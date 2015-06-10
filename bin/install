@@ -20,11 +20,11 @@ echo "
 skip-name-resolve
 explicit-defaults-for-timestamp
 port=${OPENSHIFT_MYSQL_DB_PORT}
-socket=${TMP}/mysql.sock
+socket=${TMP}mysql.sock
 basedir=${OPENSHIFT_DATA_DIR}.mysql
 datadir=${OPENSHIFT_DATA_DIR}.mysql/data
 tmpdir=${TMP}
-pid-file=${TMP}/mysql.pid
+pid-file=${TMP}mysql.pid
 log-error=${OPENSHIFT_LOG_DIR}mysql.err
 " > ${OPENSHIFT_DATA_DIR}.mysql/my.cnf
 
