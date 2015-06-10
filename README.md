@@ -4,7 +4,7 @@ This is a custom OpenShift cartridge able to provide the latest MySQL version (s
 
 ## Why
 
-Because the standard OpenShift MySQL cartridge is stuck at 5.5.
+Because the standard OpenShift MySQL cartridge is stuck at 5.5 and some people are keen to use the latest MySQL server features (such as improved support for spatial data).
 
 ## When to use
 
