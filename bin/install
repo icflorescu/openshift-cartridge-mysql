@@ -18,7 +18,6 @@ rm ${OPENSHIFT_DATA_DIR}tmp.tgz
 echo "
 [mysqld]
 skip-name-resolve
-bind-address=${OPENSHIFT_MYSQL_DB_HOST}
 port=${OPENSHIFT_MYSQL_DB_PORT}
 socket=${TMP}/mysql.sock
 basedir=${OPENSHIFT_DATA_DIR}.mysql
@@ -41,7 +40,11 @@ ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
   --skip-grant-tables --skip-networking &
 
 # Change root password
-echo "FLUSH PRIVILEGES; ALTER USER 'root'@'%' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
+echo "
+FLUSH PRIVILEGES;
+UPDATE mysql.user SET host = '%' WHERE host = 'localhost' AND user = 'root';
+ALTER USER 'root'@'%' IDENTIFIED BY 'root';
+" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
