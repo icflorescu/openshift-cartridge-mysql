@@ -42,7 +42,7 @@ ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
 # Change root password
 echo "
 FLUSH PRIVILEGES;
-UPDATE mysql.user SET host = '%' WHERE host = 'localhost' AND user = 'root';
+UPDATE mysql.user SET host = '%' WHERE user = 'root';
 ALTER USER 'root'@'%' IDENTIFIED BY 'root';
 " | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
