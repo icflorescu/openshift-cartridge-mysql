@@ -36,7 +36,7 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
 rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
 
 # Put initial root password in a temporary file
-echo "ALTER USER 'root'@'%' IDENTIFIED BY 'root';" > ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
+echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;" > ${OPENSHIFT_DATA_DIR}.mysql/set-password.sql
 
 # Start server with init-file
 ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
