@@ -35,8 +35,6 @@ For instance, here's how you'd do it in a Node.js application using [Knex.js](ht
       }
     });
 
-You can also use `rhc port-forward` to connect from a client / tool such as MySQL Workbench running on your development machine. See the last  .
-
 ## Notes
 
 - Can't guarantee this cartridge is production-ready. Some people use it though (on **their own responsibility**).
