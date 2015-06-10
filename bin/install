@@ -35,31 +35,6 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
 # Remove temporary tools
 rm ${OPENSHIFT_DATA_DIR}.mysql/bin/{mysql_install_db,mysql_ssl_rsa_setup}
 
-# Start server in "admin mode"
-${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
-  --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
-  --skip-grant-tables --skip-networking &
-i=0
-while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
-  sleep 1
-  i=$(($i + 1))
-done
-
-# Change root password
-echo "
-UPDATE mysql.user SET host = '%' WHERE user = 'root';
-FLUSH PRIVILEGES;
-ALTER USER 'root'@'%' IDENTIFIED BY 'root';
-" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
-
-# Stop server
-kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
-i=0
-while [ ! -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
-  sleep 1
-  i=$(($i + 1))
-done
-
 # Add DB_HOST and DB_PORT environment variables
 if [ -z "$OPENSHIFT_MYSQL_PROXY_PORT" ]; then
   # Since $OPENSHIFT_MYSQL_PROXY_PORT is missing, cartridge must be running in the main gear
@@ -73,5 +48,5 @@ fi
 
 # Output result
 client_result "MySQL ${2} installed."
-client_result "The initial root password is 'root', make sure to change it."
+client_result "The initial root password will be set to 'root', make sure to change it."
 client_result "Use \$DB_HOST and \$DB_PORT environment variables to connect your application."
