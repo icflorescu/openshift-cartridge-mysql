@@ -33,6 +33,8 @@ cd ${OPENSHIFT_DATA_DIR}.mysql
 ./bin/mysql_install_db \
   --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
   --skip-name-resolve \
+  --insecure \
+  --admin-host='%' \
   --datadir=${OPENSHIFT_DATA_DIR}.mysql/data
 
 # Remove temporary tools
