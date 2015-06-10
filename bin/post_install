@@ -2,7 +2,7 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-${HOME}/bin/control stop
+${HOME}mysql/bin/control stop
 
 # Start server in "admin mode"
 ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
@@ -29,7 +29,7 @@ while [ ! -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
   i=$(($i + 1))
 done
 
-${HOME}/bin/control start
+${HOME}mysql/bin/control start
 
 # Output result
 client_result "The initial root password was set to 'root', make sure to change it."
