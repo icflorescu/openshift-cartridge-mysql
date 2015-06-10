@@ -32,9 +32,7 @@ log-error=${OPENSHIFT_LOG_DIR}mysql.err
 cd ${OPENSHIFT_DATA_DIR}.mysql
 ./bin/mysql_install_db \
   --defaults-file=${OPENSHIFT_DATA_DIR}.mysql/my.cnf \
-  --skip-name-resolve \
   --insecure \
-  --admin-host='%' \
   --datadir=${OPENSHIFT_DATA_DIR}.mysql/data
 
 # Remove temporary tools
@@ -53,5 +51,5 @@ fi
 
 # Output result
 client_result "MySQL ${2} installed."
-client_result "The initial root password is 'root', make sure to change it."
+client_result "The initial root password will be set to 'root', make sure to change it!"
 client_result "Use \$DB_HOST and \$DB_PORT environment variables to connect your application."
