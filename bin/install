@@ -46,7 +46,11 @@ while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
 done
 
 # Change root password
-echo "FLUSH PRIVILEGES; UPDATE mysql.user SET host = '%' WHERE user = 'root'; ALTER USER 'root'@'%' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
+echo "
+UPDATE mysql.user SET host = '%' WHERE user = 'root';
+FLUSH PRIVILEGES;
+ALTER USER 'root'@'%' IDENTIFIED BY 'root';
+" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
