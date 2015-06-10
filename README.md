@@ -10,23 +10,31 @@ Because the standard OpenShift MySQL cartridge is stuck at 5.5 and some people a
 
 When you need a quick and unsofisticated solution to run your application with the latest MySQL version.
 
-## How to
+## Installing
 
 To install this cartridge in your existing OpenShift application, go to **"See the list of cartridges you can add"**, paste the URL below in **"Install your own cartridge"** textbox at the bottom of the page and click "Next".
 
     http://cartreflect-claytondev.rhcloud.com/github/icflorescu/openshift-cartridge-mysql
 
-Once the cartridge is created and started, you can SSH into the gear and use `mysql` command like this:
+## Setting up
+
+Once the cartridge is created and started, you can SSH into the database gear:
+
+    ssh gear-url
+
+...and connect to the server with `mysql` client like this:
 
     ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}mysql.sock -u root
 
-For instance, here's a one-liner to set up a root password and allow remote access:
+If you really need it, you can enable remote access for root like this (make sure to replace `secret` with a strong password):
 
-    ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}mysql.sock -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'secret-password' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+    ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}mysql.sock -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
 If you're using multiple gears, here's how you can find the MySQL gear SSH url:
 
     rhc app show application-name --gears
+
+Once you've enabled remote access, you can use MySQL Workbench or your favorite client to connect from your development machine.
 
 Use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge. For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
 
