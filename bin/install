@@ -18,6 +18,7 @@ rm ${OPENSHIFT_DATA_DIR}tmp.tgz
 echo "
 [mysqld]
 skip-name-resolve
+explicit-defaults-for-timestamp
 port=${OPENSHIFT_MYSQL_DB_PORT}
 socket=${TMP}/mysql.sock
 basedir=${OPENSHIFT_DATA_DIR}.mysql
@@ -45,11 +46,7 @@ while [ -z "$(ps -ef | grep 'mysqld' | grep -v grep)" ] && [ $i -lt 60 ]; do
 done
 
 # Change root password
-echo "
-FLUSH PRIVILEGES;
-UPDATE mysql.user SET host = '%' WHERE user = 'root';
-ALTER USER 'root'@'%' IDENTIFIED BY 'root';
-" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
+echo "FLUSH PRIVILEGES; UPDATE mysql.user SET host = '%' WHERE user = 'root'; ALTER USER 'root'@'%' IDENTIFIED BY 'root';" | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
 kill "$(ps -ef | grep 'mysqld' | grep -v grep | awk '{ print $2 }')" > /dev/null 2>&1
@@ -71,4 +68,6 @@ else
 fi
 
 # Output result
-client_result "MySQL ${2} installed. Use \$DB_HOST and \$DB_PORT environment variables to connect your application."
+client_result "MySQL ${2} installed."
+client_result "The initial root password is 'root', make sure to change it."
+client_result "Use \$DB_HOST and \$DB_PORT environment variables to connect your application."
