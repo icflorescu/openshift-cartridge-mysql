@@ -16,13 +16,17 @@ To install this cartridge in your existing OpenShift application, go to **"See t
 
     http://cartreflect-claytondev.rhcloud.com/github/icflorescu/openshift-cartridge-mysql
 
-**The initial root password for the server instance is `root`.**
+Once the cartridge is created and started, you can use `rhc port-forward` to connect with MySQL Workbench (or your client of choice) from your development machine using these **inital credentials**:
 
-Use `rhc port-forward` and connect with MySQL Workbench (or your client of choice) to change the root password, create databases and additional users as needed. If `rhc port-forward` sounds new to you, please refer to the last note in the **Notes** section below.
+    user:     admin
+    password: admin
 
-You can use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge.
+You can (and **should**) change the admin password using the following SQL statement:
 
-For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
+    ALTER USER 'admin'@'%' IDENTIFIED BY 'my-secret-password';
+
+
+You can use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge. For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
 
     var knex = require('knex')({
       client: 'mysql',
@@ -41,7 +45,7 @@ For instance, here's how you'd do it in a Node.js application using [Knex.js](ht
 - This is a **lean cartridge**. A standard MySQL installation takes a huge amount of space (over 1.5GB for MySQL 5.7.5). To save space, just the necessary MySQL binaries are installed.
 - In order to avoid an OpenShift configuration conflict, **the server instance is listening on 13306 instead of the standard MySQL port 3306**.
 - Don't hesitate to make a pull-request with an updated version in [this file](https://github.com/icflorescu/openshift-cartridge-mysql/blob/master/metadata/manifest.yml#L4) if you notice this cartridge version is behind the latest [MySQL release](http://dev.mysql.com/downloads/mysql).
-- Please refer to the [OpenShift documentation](https://developers.openshift.com/en/managing-port-forwarding.html) to learn about `rhc port-forward` instead of opening issues in this GitHub repository. I am not an employee of RedHat / OpenShift, nor do I have any form of consultancy agreement with them. The fact that I open-sourced this cartridge doesn't mean I'm willing to offer free advice on the subject. Pull-requests and suggestions are always welcome, though.
+- **Don't open issues in this repository in you have questions about `rhc port-forward`**. Please refer to the [OpenShift documentation](https://developers.openshift.com/en/managing-port-forwarding.html) to learn about it. I am not an employee of RedHat / OpenShift, nor do I have any form of consultancy agreement with them and the fact that I open-sourced this cartridge doesn't mean I'm willing to offer free advice on the subject. Pull-requests and suggestions are always welcome, though.
 
 ## TODO
 

@@ -42,8 +42,8 @@ ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld \
 # Change root password
 echo "
 FLUSH PRIVILEGES;
-UPDATE mysql.user SET host = '%' WHERE user = 'root';
-ALTER USER 'root'@'%' IDENTIFIED BY 'root';
+CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
 " | ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}/mysql.sock
 
 # Stop server
@@ -66,4 +66,4 @@ else
 fi
 
 # Output result
-client_result "MySQL ${2} installed. Initial root password is 'root', make sure to change it. Use \$DB_HOST and \$DB_PORT environment variables to connect your application."
+client_result "MySQL ${2} installed. Use \$DB_HOST and \$DB_PORT environment variables to connect your application."
