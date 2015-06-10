@@ -16,15 +16,17 @@ To install this cartridge in your existing OpenShift application, go to **"See t
 
     http://cartreflect-claytondev.rhcloud.com/github/icflorescu/openshift-cartridge-mysql
 
-Once the cartridge is created and started, you can use `rhc port-forward` to connect with MySQL Workbench (or your client of choice) from your development machine using these **inital credentials**:
+Once the cartridge is created and started, you can SSH into the gear and use `mysql` command like this:
 
-    user:     root
-    password: root
+    ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}mysql.sock -u root
 
-Make sure to **change the root password** using an SQL statement like this:
+For instance, here's a one-liner to set up a root password and allow remote access:
 
-    ALTER USER 'root'@'%' IDENTIFIED BY 'replace-with-new-secret-password';
+    ${OPENSHIFT_DATA_DIR}.mysql/bin/mysql --socket=${TMP}mysql.sock -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'secret-password' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
+If you're using multiple gears, here's how you can find the MySQL gear SSH url:
+
+    rhc app show application-name --gears
 
 Use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge. For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
 
