@@ -1,6 +1,8 @@
 # Custom MySQL cartridge for OpenShift
 
-This is a custom OpenShift cartridge able to provide the latest MySQL version (starting with 5.7.7-rc as of 10th of June 2015).
+![mysql-openshift](https://cloud.githubusercontent.com/assets/581999/13375581/503e858e-ddac-11e5-96de-b4cd718e7cc3.png)
+
+This is a custom OpenShift cartridge providing the latest MySQL version (5.7.11 as of February 27th 2015).
 
 ## Why
 
@@ -69,6 +71,12 @@ Since you're here, chances are you might also be interested in this [custom Node
 
 This cartridge was inspired by [Ted Wennmark](https://se.linkedin.com/in/tedwennmark)'s [blog post](http://mysql-nordic.blogspot.ro/2015/02/creating-minimal-mysql-installation-for.html) on how to create a minimal MySQL installation for an embedded system.
 
+## Credits
+
+See contributors [here](https://github.com/icflorescu/openshift-cartridge-mysql/graphs/contributors).
+
+If you find this repo useful, don't hesitate to give it a star and [spread the word](http://twitter.com/share?text=Checkout%20this%20custom%20MySQL%20cartridge%20for%20OpenShift!&amp;url=http%3A%2F%2Fgithub.com/icflorescu/openshift-cartridge-mysql&amp;hashtags=MySQL,database,OpenShift&amp;via=icflorescu).
+
 ## License
 
-The [MIT License](http://github.com/icflorescu/openshift-cartridge-mysql/LICENSE).
+The [ISC License](http://github.com/icflorescu/openshift-cartridge-mysql/blob/master/LICENSE).
