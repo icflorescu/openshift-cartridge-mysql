@@ -2,7 +2,7 @@
 
 ![mysql-openshift](https://cloud.githubusercontent.com/assets/581999/13375581/503e858e-ddac-11e5-96de-b4cd718e7cc3.png)
 
-This is a custom OpenShift cartridge providing the latest MySQL version (5.7.11 as of February 27th 2015).
+This is a custom OpenShift cartridge providing the latest MySQL version (5.7.11 as of February 27th 2016).
 
 ## Why
 
