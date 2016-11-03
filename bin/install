@@ -49,6 +49,9 @@ else
   echo "$OPENSHIFT_MYSQL_DB_PROXY_PORT" > $OPENSHIFT_MYSQL_DIR/env/DB_PORT
 fi
 
+# Strip symbols from mysqld, reducing file size by more than 80%
+strip ${OPENSHIFT_DATA_DIR}.mysql/bin/mysqld
+
 # Output result
 client_result "MySQL ${2} installed."
 client_result "The initial root password will be set to 'root', make sure to change it!"
