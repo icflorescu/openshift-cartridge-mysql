@@ -43,8 +43,8 @@ Use `DB_HOST` and `DB_PORT` environment variables to connect from an application
     var knex = require('knex')({
       client: 'mysql',
       connection: {
-        host     : process.env.DB_HOST,
-        port:    : process.env.DB_PORT,
+        host     : process.env.OPENSHIFT_MYSQL_DB_HOST,
+        port:    : process.env.OPENSHIFT_MYSQL_DB_PORT,
         user     : 'your_database_user',
         password : 'your_database_password',
         database : 'myapp_test'
