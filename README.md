@@ -38,7 +38,7 @@ If you're using multiple gears, here's how you can find the MySQL gear SSH url:
 
 Once you've enabled remote access, you can use `rhc port-forward` and MySQL Workbench or your favorite client to connect from your development machine.
 
-Use `DB_HOST` and `DB_PORT` environment variables to connect from an application running in the main web cartridge. For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
+Use `OPENSHIFT_MYSQL_DB_HOST` and `OPENSHIFT_MYSQL_DB_PORT` environment variables to connect from an application running in the main web cartridge. For instance, here's how you'd do it in a Node.js application using [Knex.js](http://knexjs.org/):
 
     var knex = require('knex')({
       client: 'mysql',
